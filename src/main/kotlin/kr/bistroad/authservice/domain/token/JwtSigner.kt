@@ -13,21 +13,21 @@ import java.util.*
 
 @Component
 class JwtSigner(
-        @Value("\${security.jwt.token.private-key}")
-        privateKeyStr: String,
+    @Value("\${security.jwt.token.private-key}")
+    privateKeyStr: String,
 
-        @Value("\${security.jwt.token.expire-length}")
-        val validTime: Long
+    @Value("\${security.jwt.token.expire-length}")
+    val validTime: Long
 ) {
     private val privateKey: PrivateKey
 
     init {
         val bytes = Base64.getDecoder().decode(
-                privateKeyStr
-                        .replace("\n", "")
-                        .replace("-----BEGIN PRIVATE KEY-----", "")
-                        .replace("-----END PRIVATE KEY-----", "")
-                        .toByteArray()
+            privateKeyStr
+                .replace("\n", "")
+                .replace("-----BEGIN PRIVATE KEY-----", "")
+                .replace("-----END PRIVATE KEY-----", "")
+                .toByteArray()
         )
         val keySpec = PKCS8EncodedKeySpec(bytes)
         val keyFactory = KeyFactory.getInstance("RSA")
@@ -40,10 +40,10 @@ class JwtSigner(
         val now = Date()
         val validity = Date(now.time + validTime)
         return Jwts.builder()
-                .setClaims(claims)
-                .setIssuedAt(now)
-                .setExpiration(validity)
-                .signWith(privateKey, SignatureAlgorithm.RS256)
-                .compact()
+            .setClaims(claims)
+            .setIssuedAt(now)
+            .setExpiration(validity)
+            .signWith(privateKey, SignatureAlgorithm.RS256)
+            .compact()
     }
 }

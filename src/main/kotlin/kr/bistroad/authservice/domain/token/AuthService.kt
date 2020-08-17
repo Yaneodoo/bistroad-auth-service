@@ -12,18 +12,18 @@ import java.util.*
 
 @Service
 class AuthService(
-        private val jwtSigner: JwtSigner
+    private val jwtSigner: JwtSigner
 ) {
     private val restTemplate: RestTemplate = RestTemplate()
     private val objectMapper: ObjectMapper = ObjectMapper().registerModule(KotlinModule())
 
     fun exchangeToken(dto: TokenDto.ExchangeReq): TokenDto.ExchangeRes {
         val searchUsers = restTemplate.exchange(
-                RequestEntity<List<User>>(
-                        HttpMethod.GET,
-                        URI("http://user-service:8080/users?username=${dto.username}&password=${dto.password}")
-                ),
-                typeRef<List<User>>()
+            RequestEntity<List<User>>(
+                HttpMethod.GET,
+                URI("http://user-service:8080/users?username=${dto.username}&password=${dto.password}")
+            ),
+            typeRef<List<User>>()
         )
         check(searchUsers.statusCode.is2xxSuccessful) { "Failed to find the user" }
         check(!searchUsers.body.isNullOrEmpty()) { "User not found" }
@@ -32,22 +32,22 @@ class AuthService(
         val accessToken = publishToken(user)
 
         return TokenDto.ExchangeRes(
-                access_token = accessToken,
-                token_type = "bearer",
-                expires_in = jwtSigner.validTime
+            access_token = accessToken,
+            token_type = "bearer",
+            expires_in = jwtSigner.validTime
         )
     }
 
     fun publishToken(user: User): String {
         return jwtSigner.createToken(
-                subject = objectMapper.writeValueAsString(
-                        TokenSubject(userId = user.id, role = user.role)
-                )
+            subject = objectMapper.writeValueAsString(
+                TokenSubject(userId = user.id, role = user.role)
+            )
         )
     }
 
     class TokenSubject(
-            val userId: UUID,
-            val role: UserRole
+        val userId: UUID,
+        val role: UserRole
     )
 }

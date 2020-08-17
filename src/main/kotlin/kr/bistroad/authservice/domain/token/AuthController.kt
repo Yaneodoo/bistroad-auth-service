@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class AuthController(
-        private val authService: AuthService
+    private val authService: AuthService
 ) {
     @PostMapping("/auth/token")
     fun postTokenExchanger(@RequestBody dto: TokenDto.ExchangeReq): TokenDto.ExchangeRes =
-            authService.exchangeToken(dto)
+        authService.exchangeToken(dto)
 }
