@@ -2,6 +2,7 @@ package kr.bistroad.authservice.domain.token
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import kr.bistroad.authservice.exception.UserNotFoundException
 import kr.bistroad.authservice.util.typeRef
 import org.springframework.http.HttpMethod
 import org.springframework.http.RequestEntity
@@ -25,8 +26,7 @@ class AuthService(
             ),
             typeRef<List<User>>()
         )
-        check(searchUsers.statusCode.is2xxSuccessful) { "Failed to find the user" }
-        check(!searchUsers.body.isNullOrEmpty()) { "User not found" }
+        if (searchUsers.body.isNullOrEmpty()) throw UserNotFoundException()
 
         val user = searchUsers.body!!.first()
         val accessToken = publishToken(user)
