@@ -2,33 +2,27 @@ package kr.bistroad.authservice.domain.token
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import kr.bistroad.authservice.exception.UserNotFoundException
-import kr.bistroad.authservice.util.typeRef
-import org.springframework.http.HttpMethod
-import org.springframework.http.RequestEntity
+import kr.bistroad.authservice.domain.user.User
+import kr.bistroad.authservice.domain.user.UserDto
+import kr.bistroad.authservice.domain.user.UserRole
+import kr.bistroad.authservice.domain.user.UserService
+import kr.bistroad.authservice.exception.WrongPasswordException
 import org.springframework.stereotype.Service
-import org.springframework.web.client.RestTemplate
-import java.net.URI
 import java.util.*
 
 @Service
 class AuthService(
-    private val jwtSigner: JwtSigner
+        private val userService: UserService,
+        private val jwtSigner: JwtSigner
 ) {
-    private val restTemplate: RestTemplate = RestTemplate()
     private val objectMapper: ObjectMapper = ObjectMapper().registerModule(KotlinModule())
 
     fun exchangeToken(dto: TokenDto.ExchangeReq): TokenDto.ExchangeRes {
-        val searchUsers = restTemplate.exchange(
-            RequestEntity<List<User>>(
-                HttpMethod.GET,
-                URI("http://user-service:8080/users?username=${dto.username}&password=${dto.password}")
-            ),
-            typeRef<List<User>>()
-        )
-        if (searchUsers.body.isNullOrEmpty()) throw UserNotFoundException()
+        val user = userService.getUserByUsername(dto.username)
 
-        val user = searchUsers.body!!.first()
+        val matchesPassword = userService.verifyPassword(user.id, UserDto.VerifyPasswordReq(dto.password))
+        if (!matchesPassword) throw WrongPasswordException()
+
         val accessToken = publishToken(user)
 
         return TokenDto.ExchangeRes(
