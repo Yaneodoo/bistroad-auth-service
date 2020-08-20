@@ -26,7 +26,9 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
+        exclude(module = "mockito-core")
     }
+    testImplementation("com.ninja-squad:springmockk:2.0.3")
 
     // Spring Cloud Kubernetes
     implementation("org.springframework.cloud:spring-cloud-starter-kubernetes:1.1.4.RELEASE")
