@@ -5,3 +5,9 @@ spring:
     kubernetes:
       config:
         namespace: bistroad-prod
+swagger:
+  doc:
+    operation:
+      auth:
+        exchange-token:
+          description: Exchange a token with an username and a password
