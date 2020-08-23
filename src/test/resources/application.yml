@@ -31,3 +31,5 @@ security:
         oHqLUXKi9Sh5RXLT8PWQg1iWRH/v9kYIJCy0vyzvc3dXjaf5Kv/HoyBKPuM5iTGL
         lbGUoHjrXSKW/d+UTOrZ1dY=
         -----END PRIVATE KEY-----
+swagger:
+  host: localhost
