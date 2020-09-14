@@ -1,4 +1,4 @@
-package kr.bistroad.authservice
+package kr.bistroad.authservice.global.config.swagger
 
 import io.swagger.models.Swagger
 import org.springframework.core.annotation.Order

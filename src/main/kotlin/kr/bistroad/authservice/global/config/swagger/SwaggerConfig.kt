@@ -1,4 +1,4 @@
-package kr.bistroad.authservice
+package kr.bistroad.authservice.global.config.swagger
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean

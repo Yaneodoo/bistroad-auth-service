@@ -1,19 +1,16 @@
-package kr.bistroad.authservice.domain.token
+package kr.bistroad.authservice.token.application
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import kr.bistroad.authservice.domain.user.User
-import kr.bistroad.authservice.domain.user.UserDto
-import kr.bistroad.authservice.domain.user.UserRole
-import kr.bistroad.authservice.domain.user.UserService
-import kr.bistroad.authservice.exception.WrongPasswordException
+import kr.bistroad.authservice.global.error.exception.WrongPasswordException
+import kr.bistroad.authservice.token.infrastructure.*
 import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
 class AuthService(
-        private val userService: UserService,
-        private val jwtSigner: JwtSigner
+    private val userService: UserService,
+    private val jwtSigner: JwtSigner
 ) {
     private val objectMapper: ObjectMapper = ObjectMapper().registerModule(KotlinModule())
 

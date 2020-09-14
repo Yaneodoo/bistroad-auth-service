@@ -1,4 +1,4 @@
-package kr.bistroad.authservice.domain.token
+package kr.bistroad.authservice.token.application
 
 interface TokenDto {
     data class ExchangeReq(

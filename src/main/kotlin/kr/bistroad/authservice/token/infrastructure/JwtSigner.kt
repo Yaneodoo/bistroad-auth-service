@@ -1,4 +1,4 @@
-package kr.bistroad.authservice.domain.token
+package kr.bistroad.authservice.token.infrastructure
 
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts

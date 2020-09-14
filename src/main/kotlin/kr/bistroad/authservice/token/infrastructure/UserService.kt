@@ -1,7 +1,7 @@
-package kr.bistroad.authservice.domain.user
+package kr.bistroad.authservice.token.infrastructure
 
-import kr.bistroad.authservice.exception.UserNotFoundException
-import kr.bistroad.authservice.util.typeRef
+import kr.bistroad.authservice.global.error.exception.UserNotFoundException
+import kr.bistroad.authservice.global.util.typeRef
 import org.springframework.http.MediaType
 import org.springframework.http.RequestEntity
 import org.springframework.stereotype.Service

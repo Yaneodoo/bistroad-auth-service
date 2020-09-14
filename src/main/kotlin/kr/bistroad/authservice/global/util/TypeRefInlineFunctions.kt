@@ -1,4 +1,4 @@
-package kr.bistroad.authservice.util
+package kr.bistroad.authservice.global.util
 
 import org.springframework.core.ParameterizedTypeReference
 

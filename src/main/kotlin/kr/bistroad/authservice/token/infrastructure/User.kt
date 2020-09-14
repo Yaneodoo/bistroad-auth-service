@@ -1,4 +1,4 @@
-package kr.bistroad.authservice.domain.user
+package kr.bistroad.authservice.token.infrastructure
 
 import java.util.*
 
