@@ -15,6 +15,9 @@ class AuthController(
 ) {
     @PostMapping("/auth/token")
     @ApiOperation("\${swagger.doc.operation.auth.exchange-token.description}")
-    fun postTokenExchanger(@RequestBody dto: TokenDto.ExchangeReq): TokenDto.ExchangeRes =
-        authService.exchangeToken(dto)
+    fun postTokenExchanger(@RequestBody body: TokenRequest.ExchangeBody) =
+        authService.exchangeToken(
+            username = body.username,
+            password = body.password
+        )
 }

@@ -14,15 +14,15 @@ class AuthService(
 ) {
     private val objectMapper: ObjectMapper = ObjectMapper().registerModule(KotlinModule())
 
-    fun exchangeToken(dto: TokenDto.ExchangeReq): TokenDto.ExchangeRes {
-        val user = userService.getUserByUsername(dto.username)
+    fun exchangeToken(username: String, password: String): TokenDto.ForResult {
+        val user = userService.getUserByUsername(username)
 
-        val matchesPassword = userService.verifyPassword(user.id, UserDto.VerifyPasswordReq(dto.password))
+        val matchesPassword = userService.verifyPassword(user.id, UserDto.VerifyPasswordReq(password))
         if (!matchesPassword) throw WrongPasswordException()
 
         val accessToken = publishToken(user)
 
-        return TokenDto.ExchangeRes(
+        return TokenDto.ForResult(
             access_token = accessToken,
             token_type = "bearer",
             expires_in = jwtSigner.validTime
